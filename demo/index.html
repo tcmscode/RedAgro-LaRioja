@@ -14,7 +14,7 @@
   <div class="ambient" aria-hidden="true"></div>
 
   <div class="shell">
-    <header class="glass-bar topbar">
+    <header class="glass-bar topbar" id="topbar">
       <button type="button" class="brand" onclick="show('home')" aria-label="Inicio RedAgro">
         <img src="assets/bandera-la-rioja.png" alt="Bandera de La Rioja" class="brand-flag" />
         <div class="brand-text">
@@ -23,7 +23,7 @@
         </div>
       </button>
 
-      <nav class="nav" aria-label="Secciones">
+      <nav class="nav" id="mainNav" aria-label="Secciones">
         <button type="button" class="nav-btn active" data-route="home" onclick="show('home')">Inicio</button>
         <button type="button" class="nav-btn" data-route="mapa" onclick="show('mapa')">Mapa</button>
         <button type="button" class="nav-btn" data-route="perfil" onclick="show('perfil')">Productor</button>
@@ -34,13 +34,17 @@
       <div class="top-actions">
         <div class="buyer-chip" title="Sesión como comprador">
           <span class="buyer-avatar">MC</span>
-          <div>
+          <div class="buyer-chip-text">
             <strong>María C.</strong>
             <small>Compradora</small>
           </div>
         </div>
+        <button type="button" class="menu-toggle" id="menuToggle" aria-label="Abrir menú" aria-expanded="false" onclick="toggleMenu()">
+          <span></span><span></span><span></span>
+        </button>
       </div>
     </header>
+    <div class="nav-backdrop" id="navBackdrop" onclick="closeMenu()" hidden></div>
 
     <main class="main">
       <!-- INICIO = FEED RED SOCIAL (COMPRADOR) -->

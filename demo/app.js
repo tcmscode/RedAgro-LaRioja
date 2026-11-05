@@ -152,6 +152,30 @@ function pinIcon(celeste) {
   });
 }
 
+function toggleMenu() {
+  const topbar = document.getElementById("topbar");
+  const toggle = document.getElementById("menuToggle");
+  const backdrop = document.getElementById("navBackdrop");
+  const open = !topbar.classList.contains("menu-open");
+  topbar.classList.toggle("menu-open", open);
+  toggle.setAttribute("aria-expanded", open ? "true" : "false");
+  toggle.setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú");
+  if (backdrop) backdrop.hidden = !open;
+}
+
+function closeMenu() {
+  const topbar = document.getElementById("topbar");
+  const toggle = document.getElementById("menuToggle");
+  const backdrop = document.getElementById("navBackdrop");
+  if (!topbar) return;
+  topbar.classList.remove("menu-open");
+  if (toggle) {
+    toggle.setAttribute("aria-expanded", "false");
+    toggle.setAttribute("aria-label", "Abrir menú");
+  }
+  if (backdrop) backdrop.hidden = true;
+}
+
 function show(id) {
   document.querySelectorAll(".view").forEach((v) => v.classList.remove("active"));
   const view = document.getElementById(id);
@@ -164,6 +188,7 @@ function show(id) {
     void el.offsetWidth;
     el.style.animation = "";
   });
+  closeMenu();
   window.scrollTo({ top: 0, behavior: "smooth" });
   requestAnimationFrame(() => {
     if (id === "mapa") ensureProvinceMap();
