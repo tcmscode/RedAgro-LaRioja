@@ -17,12 +17,20 @@
 }
 
 * { box-sizing: border-box; }
-html, body { margin: 0; min-height: 100%; }
+html, body {
+  margin: 0;
+  min-height: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
 body {
   font-family: var(--font);
   color: var(--ink);
   background: var(--white-soft);
-  overflow-x: hidden;
+  position: relative;
+}
+img, svg, video, canvas, iframe {
+  max-width: 100%;
 }
 
 .ambient {
@@ -37,8 +45,10 @@ body {
 
 .shell {
   width: min(1440px, calc(100% - 32px));
+  max-width: 100%;
   margin: 0 auto;
   padding: 18px 0 40px;
+  overflow-x: clip;
 }
 
 .glass-bar,
@@ -608,7 +618,12 @@ body {
 }
 .detail-list strong { color: var(--ink); }
 
-.filters { display: flex; gap: 8px; flex-wrap: wrap; }
+.filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  max-width: 100%;
+}
 select {
   border: 1px solid var(--line);
   background: rgba(255, 255, 255, 0.75);
@@ -616,15 +631,21 @@ select {
   padding: 10px 14px;
   font: 600 0.88rem var(--font);
   color: var(--ink);
+  max-width: 100%;
 }
-.table-panel { padding: 0; overflow: hidden; }
-.table-wrap { overflow: auto; }
-table { width: 100%; border-collapse: collapse; min-width: 760px; }
+.table-panel { padding: 0; overflow: hidden; max-width: 100%; }
+.table-wrap {
+  overflow-x: auto;
+  max-width: 100%;
+  -webkit-overflow-scrolling: touch;
+}
+table { width: 100%; border-collapse: collapse; }
 th, td {
   text-align: left;
   padding: 14px 16px;
   border-bottom: 1px solid var(--line);
   font-size: 0.9rem;
+  word-break: break-word;
 }
 th {
   color: var(--muted);
@@ -672,6 +693,7 @@ th {
   flex-wrap: wrap;
   gap: 6px;
   margin-bottom: 14px;
+  max-width: 100%;
 }
 .admin-tab {
   border: 0;
@@ -682,6 +704,8 @@ th {
   border-radius: 999px;
   cursor: pointer;
   border: 1px solid var(--line);
+  white-space: normal;
+  text-align: center;
 }
 .admin-tab.active {
   color: #fff;
@@ -827,6 +851,15 @@ th {
     font-size: 0.95rem;
   }
   .buyer-chip-text small { display: none; }
+  .admin-tabs {
+    flex-direction: column;
+    flex-wrap: nowrap;
+  }
+  .admin-tab {
+    width: 100%;
+    border-radius: 14px;
+    text-align: left;
+  }
 }
 
 @media (max-width: 640px) {
@@ -837,10 +870,17 @@ th {
   .topbar { top: 8px; border-radius: 18px; }
   .brand-flag { width: 38px; height: 38px; border-radius: 10px; }
   .brand-text strong { font-size: 0.98rem; }
-  .main { margin-top: 14px; }
-  .glass-panel { padding: 16px; border-radius: 18px; }
+  .main { margin-top: 14px; overflow-x: clip; }
+  .view { max-width: 100%; overflow-x: clip; }
+  .glass-panel { padding: 16px; border-radius: 18px; max-width: 100%; }
+  .page-head {
+    flex-direction: column;
+    align-items: stretch;
+  }
   .page-head h2,
   .feed-head h2 { font-size: 1.35rem; }
+  .filters { width: 100%; }
+  .filters select { flex: 1 1 100%; width: 100%; }
   .product-row,
   .produce-grid,
   .pin-products,
@@ -850,7 +890,7 @@ th {
   .product-card { grid-template-rows: 180px auto; }
   .product-card img { height: 180px; }
   .leaflet-frame,
-  .leaflet-frame.farm { height: 280px; }
+  .leaflet-frame.farm { height: 280px; max-width: 100%; }
   .buyer-chip {
     padding: 4px 8px 4px 4px;
     gap: 6px;
@@ -860,14 +900,68 @@ th {
   .post-head { flex-wrap: wrap; }
   .metric-row { grid-template-columns: repeat(3, 1fr); gap: 6px; }
   .metric-row strong { font-size: 0.8rem; }
-  .table-wrap { margin: 0 -4px; }
+
+  /* Ministerio tabs: full-width stack, no sideways swipe */
+  .admin-tabs {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 8px;
+  }
+  .admin-tab {
+    width: 100%;
+    border-radius: 14px;
+    padding: 12px 14px;
+    text-align: left;
+  }
+
+  /* Tables become stacked cards — no horizontal scroll */
+  .table-wrap {
+    overflow: visible;
+    margin: 0;
+  }
+  .table-panel { padding: 12px; }
+  table { min-width: 0; }
+  thead { display: none; }
+  table,
+  tbody,
+  tr,
+  td {
+    display: block;
+    width: 100%;
+  }
+  tr {
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    margin-bottom: 10px;
+    padding: 10px 12px;
+  }
+  td {
+    border: 0;
+    padding: 6px 0;
+    font-size: 0.88rem;
+  }
+  td.row-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding-top: 10px;
+  }
+
   .mod-item {
     grid-template-columns: 1fr;
     align-items: start;
   }
+  .map-chips,
+  .post-actions,
+  .cta-row,
+  .feed-actions {
+    max-width: 100%;
+  }
   .toast {
     left: 12px;
     right: 12px;
+    width: auto;
     bottom: 16px;
     transform: translateY(18px);
     text-align: center;
