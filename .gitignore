@@ -1,0 +1,8 @@
+.vercel
+node_modules
+.DS_Store
+Thumbs.db
+*.log
+.cursor
+proyecto-redagro.docx
+scripts/__pycache__
